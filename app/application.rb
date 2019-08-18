@@ -6,9 +6,11 @@ def call(env)
   resp = Rack::Response.new
   req = Rack::Request.new(env)
  
-     if req.path.match(/items/)
-      item = @@items.find{|s| s.price}
-      resp.write "#{item.price}"
+    if req.path.match(/items/)
+      item_name = req.path.split("/items/").last
+      
+      if item =@@items.find{|i| i.name == item_name}
+        resp.write item.price
      
      elsif req.path=="/items/"
         resp.write "Item not found"
